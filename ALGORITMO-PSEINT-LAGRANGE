@@ -1,0 +1,72 @@
+Proceso Interpolacion_Lagrange
+    Definir x_points, y_points, x, valor_real Como Real
+    Definir n, i, j Como Entero
+    Definir y_interp, L, error Como Real
+    Dimension x_points[3]
+    Dimension y_points[3]
+    
+    // Datos del primer ejemplo
+    x_points[0] <- 1
+    x_points[1] <- 4
+    x_points[2] <- 6
+    
+    y_points[0] <- 0
+    y_points[1] <- 1.386294
+    y_points[2] <- 1.791759
+    
+    x <- 2
+    valor_real <- 0.6931472
+    
+    n <- 2  // 3 puntos => grado 2
+    
+    // Inicializar la interpolación
+    y_interp <- 0
+    
+    // Interpolación de Lagrange
+    Para i <- 0 Hasta n Con Paso 1
+        L <- 1
+        Para j <- 0 Hasta n Con Paso 1
+            Si j <> i Entonces
+                L <- L * (x - x_points[j]) / (x_points[i] - x_points[j])
+            FinSi
+        FinPara
+        y_interp <- y_interp + y_points[i] * L
+    FinPara
+    
+    // Calcular error porcentual
+    error <- abs((y_interp - valor_real) / valor_real) * 100
+    
+    // Mostrar resultados
+    Escribir "Ejemplo 1: ln(2) ≈ ", y_interp
+    Escribir "Error porcentual: ", error, "%"
+    
+    // Ahora repetir con el segundo conjunto de puntos
+    x_points[0] <- 1
+    x_points[1] <- 2
+    x_points[2] <- 3
+    
+    y_points[0] <- 0
+    y_points[1] <- 0.6931472
+    y_points[2] <- 1.098612
+    
+    // Inicializar de nuevo
+    y_interp <- 0
+    
+    // Interpolación de Lagrange
+    Para i <- 0 Hasta n Con Paso 1
+        L <- 1
+        Para j <- 0 Hasta n Con Paso 1
+            Si j <> i Entonces
+                L <- L * (x - x_points[j]) / (x_points[i] - x_points[j])
+            FinSi
+        FinPara
+        y_interp <- y_interp + y_points[i] * L
+    FinPara
+    
+    // Calcular error porcentual
+    error <- abs((y_interp - valor_real) / valor_real) * 100
+    
+    // Mostrar resultados
+    Escribir "Ejemplo 2: ln(2) ≈ ", y_interp
+    Escribir "Error porcentual: ", error, "%"
+FinProceso
