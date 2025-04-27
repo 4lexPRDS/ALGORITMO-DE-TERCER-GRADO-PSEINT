@@ -1,0 +1,56 @@
+Proceso Interpolacion_Newton_3er_Grado
+    Definir x_points, y_points, F Como Real
+    Definir n, i, j, k, m Como Entero
+    Definir x, valor_real, y_interp, term, error Como Real
+    Dimension x_points[4]
+    Dimension y_points[4]
+    Dimension F[4,4]
+    
+    // Datos de entrada
+    x_points[0] <- 1
+    x_points[1] <- 1.5
+    x_points[2] <- 2.5
+    x_points[3] <- 4
+    
+    y_points[0] <- 0
+    y_points[1] <- 0.405465
+    y_points[2] <- 0.916291
+    y_points[3] <- 1.386294
+    
+    x <- 2
+    valor_real <- 0.6931472
+    
+    n <- 4
+    
+    // Inicializar F con ceros y cargar primera columna
+    Para i <- 0 Hasta n-1 Con Paso 1
+        Para j <- 0 Hasta n-1 Con Paso 1
+            F[i,j] <- 0
+        FinPara
+        F[i,0] <- y_points[i]
+    FinPara
+    
+    // Calcular diferencias divididas
+    Para j <- 1 Hasta n-1 Con Paso 1
+        Para i <- 0 Hasta n-j-1 Con Paso 1
+            F[i,j] <- (F[i+1,j-1] - F[i,j-1]) / (x_points[i+j] - x_points[i])
+        FinPara
+    FinPara
+    
+    // Evaluar polinomio en x
+    y_interp <- F[0,0]
+    Para k <- 1 Hasta n-1 Con Paso 1
+        term <- F[0,k]
+        Para m <- 0 Hasta k-1 Con Paso 1
+            term <- term * (x - x_points[m])
+        FinPara
+        y_interp <- y_interp + term
+    FinPara
+    
+    // Calcular error porcentual
+    error <- abs((y_interp - valor_real) / valor_real) * 100
+    
+    // Mostrar resultados
+    Escribir "Estimación: ln(2) ≈ ", y_interp
+    Escribir "Error porcentual: ", error, "%"
+FinProceso
